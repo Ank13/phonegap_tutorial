@@ -24,16 +24,28 @@ var app = {
     },
 
     initialize: function() {
+        var self = this;
         // Three storage options (memory, HTML5 Local Storage, or WebSql):
         // this.store = new LocalStorageStore();
         // this.store = new WebSqlStore();
-
-        var self = this;
         this.store = new MemoryStore(function(){
           // Testing notification logic when memory store initialized.
-          // Store will call after it has successfully initialized, inoking showAlert
-          self.showAlert('Memory Initialized', 'Info')
+          // self.showAlert('Memory Initialized', 'Info')
+
+          // Render HTML for homeview instead of including in index.html
+          self.renderHomeView()
         });
+        $('.search-key').on('keyup', $.proxy(this.findByName, this));
+    },
+
+    renderHomeView: function() {
+        var html =
+                "<div class='header'><h1>Home</h1></div>" +
+                "<div class='search-view'>" +
+                "<input class='search-key'/>" +
+                "<ul class='employee-list'></ul>" +
+                "</div>"
+        $('body').html(html);
         $('.search-key').on('keyup', $.proxy(this.findByName, this));
     }
 
