@@ -16,10 +16,10 @@ var HomeView = function(store){
         $('.employee-list').html(HomeView.liTemplate(employees));
 
         if (self.iscroll) {
-          console.log('Refresh iScroll');
+          // refresh iScroll
           self.iscroll.refresh();
         } else {
-          console.log('New iScroll');
+          // New iScroll
           self.iscroll = new iScroll($('.scroll', self.el)[0], {hScrollbar: false, vScrollbar: false });
         }
 
