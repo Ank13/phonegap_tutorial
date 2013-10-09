@@ -10,14 +10,6 @@ var app = {
         }
     },
 
-    findByName: function() {
-        var self = this;
-        this.store.findByName($('.search-key').val(), function(employees) {
-            // render result with Handlebar template
-            $('.employee-list').html(self.employeeLiTpl(employees));
-        });
-    },
-
     initialize: function() {
         var self = this;
 
@@ -32,17 +24,11 @@ var app = {
           // Testing notification logic when memory store initialized.
           // self.showAlert('Memory Initialized', 'Info')
 
-          // Render HTML for homeview instead of including in index.html
-          self.renderHomeView()
+          // Display the Home View using the HomeView class
+          $('body').html(new HomeView(self.store).render().el);
         });
-        $('.search-key').on('keyup', $.proxy(this.findByName, this));
-    },
-
-    renderHomeView: function() {
-        // render the Handlebar template
-        $('body').html(this.homeTpl());
-        $('.search-key').on('keyup', $.proxy(this.findByName, this));
     }
+
 };
 
 app.initialize();
