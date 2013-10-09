@@ -11,20 +11,20 @@ var app = {
     },
 
     findByName: function() {
-        console.log('findByName');
+        var self = this;
         this.store.findByName($('.search-key').val(), function(employees) {
-            var l = employees.length;
-            var e;
-            $('.employee-list').empty();
-            for (var i=0; i<l; i++) {
-                e = employees[i];
-                $('.employee-list').append('<li><a href="#employees/' + e.id + '">' + e.firstName + ' ' + e.lastName + '</a></li>');
-            }
+            // render result with Handlebar template
+            $('.employee-list').html(self.employeeLiTpl(employees));
         });
     },
 
     initialize: function() {
         var self = this;
+
+        // Compile the two Handlebar templates
+        this.homeTpl = Handlebars.compile($("#home-tpl").html());
+        this.employeeLiTpl = Handlebars.compile($("#employee-li-tpl").html());
+
         // Three storage options (memory, HTML5 Local Storage, or WebSql):
         // this.store = new LocalStorageStore();
         // this.store = new WebSqlStore();
@@ -39,16 +39,10 @@ var app = {
     },
 
     renderHomeView: function() {
-        var html =
-                "<div class='header'><h1>Home</h1></div>" +
-                "<div class='search-view'>" +
-                "<input class='search-key'/>" +
-                "<ul class='employee-list'></ul>" +
-                "</div>"
-        $('body').html(html);
+        // render the Handlebar template
+        $('body').html(this.homeTpl());
         $('.search-key').on('keyup', $.proxy(this.findByName, this));
     }
-
 };
 
 app.initialize();
